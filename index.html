@@ -933,13 +933,14 @@
 <!-- ========================================================= -->
 <script>
 let dataSubmitted = false;
+const STUDY_COMPLETION_KEY = "aphantasia_study_completed";
 
 /* ---------------- COOKIE FUNCTIONS ---------------- */
 function setCookie(name, value, days) {
   const date = new Date();
   date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
   const expires = "expires=" + date.toUTCString();
-  document.cookie = name + "=" + value + ";" + expires + ";path=/;SameSite=Strict";
+  document.cookie = name + "=" + encodeURIComponent(value) + ";" + expires + ";path=/;SameSite=Lax";
 }
 
 function getCookie(name) {
@@ -954,8 +955,17 @@ function getCookie(name) {
   return "";
 }
 
+function setStudyCompletion() {
+  setCookie(STUDY_COMPLETION_KEY, "true", 365);
+  localStorage.setItem(STUDY_COMPLETION_KEY, "true");
+}
+
+function hasStudyCompletion() {
+  return getCookie(STUDY_COMPLETION_KEY) === "true" || localStorage.getItem(STUDY_COMPLETION_KEY) === "true";
+}
+
 function checkStudyCompletion() {
-  if (getCookie("aphantasia_study_completed") === "true") {
+  if (hasStudyCompletion()) {
     // Hide all sections
     document.querySelectorAll("section").forEach(s => s.classList.remove("visible"));
     // Show the already completed message
@@ -975,7 +985,7 @@ function next(id) {
   
   // Set cookie when moving from consent to demographics (study officially started)
   if (id === 'demographics') {
-    setCookie("aphantasia_study_completed", "true", 365); // Cookie lasts 1 year
+    setStudyCompletion();
   }
   
   // Auto-submit data when debrief page is shown
