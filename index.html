@@ -163,6 +163,15 @@
 
 <h1>Aphantasia Study</h1>
 
+<!-- Message shown if participant has already taken the study -->
+<section id="alreadyCompleted" class="hidden" style="background-color: white; padding: 2em; border-radius: 6px; box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12); margin-top: 2em; text-align: center;">
+  <h2 style="color: #0366d6;">Study Already Completed</h2>
+  <p style="font-size: 1.1em; margin: 1.5em 0;">Our records indicate that you have already participated in this study.</p>
+  <p>To maintain the integrity of the research data, participants may only complete the study once.</p>
+  <p style="margin-top: 1.5em;">Thank you for your interest in this research.</p>
+  <p style="margin-top: 1.5em; font-size: 0.9em; color: #666;">If you believe this is an error, please contact the researcher at s.n.jackson@wlv.ac.uk</p>
+</section>
+
 <!-- ========================================================= -->
 <!-- 1. PARTICIPANT INFORMATION SHEET -->
 <!-- ========================================================= -->
@@ -914,9 +923,46 @@
 <script>
 let dataSubmitted = false;
 
+/* ---------------- COOKIE FUNCTIONS ---------------- */
+function setCookie(name, value, days) {
+  const date = new Date();
+  date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+  const expires = "expires=" + date.toUTCString();
+  document.cookie = name + "=" + value + ";" + expires + ";path=/;SameSite=Strict";
+}
+
+function getCookie(name) {
+  const cookieName = name + "=";
+  const cookies = document.cookie.split(';');
+  for (let i = 0; i < cookies.length; i++) {
+    let cookie = cookies[i].trim();
+    if (cookie.indexOf(cookieName) === 0) {
+      return cookie.substring(cookieName.length, cookie.length);
+    }
+  }
+  return "";
+}
+
+function checkStudyCompletion() {
+  if (getCookie("aphantasia_study_completed") === "true") {
+    // Hide all sections
+    document.querySelectorAll("section").forEach(s => s.classList.remove("visible"));
+    // Show the already completed message
+    document.getElementById("alreadyCompleted").classList.add("visible");
+    return true;
+  }
+  return false;
+}
+
+/* ---------------- NAVIGATION ---------------- */
 function next(id) {
   document.querySelectorAll("section").forEach(s => s.classList.remove("visible"));
   document.getElementById(id).classList.add("visible");
+  
+  // Set cookie when moving from consent to demographics (study officially started)
+  if (id === 'demographics') {
+    setCookie("aphantasia_study_completed", "true", 365); // Cookie lasts 1 year
+  }
   
   // Auto-submit data when debrief page is shown
   if (id === 'debrief' && !dataSubmitted) {
@@ -924,6 +970,11 @@ function next(id) {
     setTimeout(() => submitData(), 500); // Small delay for better UX
   }
 }
+
+/* ---------------- PAGE LOAD CHECK ---------------- */
+window.addEventListener('DOMContentLoaded', function() {
+  checkStudyCompletion();
+});
 
 /* ---------------- CONSENT CHECKBOX LOGIC ---------------- */
 document.querySelectorAll(".consentBox").forEach(box => {
