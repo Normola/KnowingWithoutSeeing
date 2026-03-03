@@ -902,15 +902,27 @@
   <p>If you have any concerns, please contact the Dean of Research Culture and Postgraduate Research, Prof. Laura Caulfield, at L.Caulfield@wlv.ac.uk, or the administrative lead and research integrity manager, Jill Morgan, at J.Morgan4@wlv.ac.uk.</p>
 
   <p style="margin-top: 2em;"><strong>Thank you for participating in this study.</strong></p>
+
+  <div id="submitMessage" style="margin-top: 2em; padding: 1.5em; background-color: #f6f8fa; border-radius: 4px;">
+    <p style="color: #0366d6; font-weight: 600;">Submitting your responses...</p>
+  </div>
 </section>
 
 <!-- ========================================================= -->
 <!-- JAVASCRIPT LOGIC -->
 <!-- ========================================================= -->
 <script>
+let dataSubmitted = false;
+
 function next(id) {
   document.querySelectorAll("section").forEach(s => s.classList.remove("visible"));
   document.getElementById(id).classList.add("visible");
+  
+  // Auto-submit data when debrief page is shown
+  if (id === 'debrief' && !dataSubmitted) {
+    dataSubmitted = true;
+    setTimeout(() => submitData(), 500); // Small delay for better UX
+  }
 }
 
 /* ---------------- CONSENT CHECKBOX LOGIC ---------------- */
@@ -936,6 +948,103 @@ function startStory() {
     document.getElementById("storyContinue").classList.remove("hidden");
     localStorage.setItem("storySeen", "true");
   }, 60000);
+}
+
+/* ---------------- DATA COLLECTION & SUBMISSION ---------------- */
+// IMPORTANT: Replace this URL with your Google Apps Script web app URL
+const GOOGLE_SCRIPT_URL = "YOUR_GOOGLE_APPS_SCRIPT_URL_HERE";
+
+function getRadioValue(name) {
+  const radio = document.querySelector(`input[name="${name}"]:checked`);
+  return radio ? radio.value : "";
+}
+
+function collectData() {
+  return {
+    timestamp: new Date().toISOString(),
+    
+    // Consent
+    consentName: document.getElementById("consentName")?.value || "",
+    consentDate: document.getElementById("consentDate")?.value || "",
+    
+    // Demographics
+    age: document.getElementById("age")?.value || "",
+    gender: document.getElementById("gender")?.value || "",
+    language: document.getElementById("language")?.value || "",
+    
+    // VVIQ Responses (16 items)
+    vviq_1: getRadioValue("vviq_1"),
+    vviq_2: getRadioValue("vviq_2"),
+    vviq_3: getRadioValue("vviq_3"),
+    vviq_4: getRadioValue("vviq_4"),
+    vviq_5: getRadioValue("vviq_5"),
+    vviq_6: getRadioValue("vviq_6"),
+    vviq_7: getRadioValue("vviq_7"),
+    vviq_8: getRadioValue("vviq_8"),
+    vviq_9: getRadioValue("vviq_9"),
+    vviq_10: getRadioValue("vviq_10"),
+    vviq_11: getRadioValue("vviq_11"),
+    vviq_12: getRadioValue("vviq_12"),
+    vviq_13: getRadioValue("vviq_13"),
+    vviq_14: getRadioValue("vviq_14"),
+    vviq_15: getRadioValue("vviq_15"),
+    vviq_16: getRadioValue("vviq_16"),
+    
+    // Math Distractor (5 items)
+    math_1: getRadioValue("math_1"),
+    math_2: getRadioValue("math_2"),
+    math_3: getRadioValue("math_3"),
+    math_4: getRadioValue("math_4"),
+    math_5: getRadioValue("math_5"),
+    
+    // Memory Questions (8 items)
+    mcq_1: getRadioValue("mcq_1"),
+    mcq_2: getRadioValue("mcq_2"),
+    mcq_3: getRadioValue("mcq_3"),
+    mcq_4: getRadioValue("mcq_4"),
+    mcq_5: getRadioValue("mcq_5"),
+    mcq_6: getRadioValue("mcq_6"),
+    mcq_7: getRadioValue("mcq_7"),
+    mcq_8: getRadioValue("mcq_8"),
+    
+    // Phenomenology Ratings (9 items)
+    rating_1: getRadioValue("rating_1"),
+    rating_2: getRadioValue("rating_2"),
+    rating_3: getRadioValue("rating_3"),
+    rating_4: getRadioValue("rating_4"),
+    rating_5: getRadioValue("rating_5"),
+    rating_6: getRadioValue("rating_6"),
+    rating_7: getRadioValue("rating_7"),
+    rating_8: getRadioValue("rating_8"),
+    rating_9: getRadioValue("rating_9")
+  };
+}
+
+function submitData() {
+  const submitMessage = document.getElementById("submitMessage");
+  
+  // Show submitting message
+  submitMessage.innerHTML = "<p style='color: #0366d6; font-weight: 600;'>Submitting your responses...</p>";
+  
+  const data = collectData();
+  
+  // Send to Google Apps Script
+  fetch(GOOGLE_SCRIPT_URL, {
+    method: "POST",
+    mode: "no-cors",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+  })
+  .then(() => {
+    submitMessage.innerHTML = "<p style='color: #28a745; font-weight: 600;'>✓ Thank you! Your responses have been submitted successfully.</p>";
+    localStorage.clear(); // Clear the story timer flag
+  })
+  .catch(error => {
+    console.error("Error:", error);
+    submitMessage.innerHTML = "<p style='color: #dc3545; font-weight: 600;'>⚠ There was an error submitting your responses. Please contact the researcher at s.n.jackson@wlv.ac.uk</p>";
+  });
 }
 </script>
 
