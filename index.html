@@ -333,7 +333,7 @@
     </div>
   </div>
 
-  <button onclick="next('vviq')" style="margin-top: 2em;">Continue</button>
+  <button id="demographicsBtn" disabled onclick="next('vviq')" style="margin-top: 2em;">Continue</button>
 </section>
 
 <!-- ========================================================= -->
@@ -554,7 +554,7 @@
     </div>
   </div>
 
-  <button onclick="next('story')">Continue</button>
+  <button id="vviqBtn" disabled onclick="next('story')">Continue</button>
 </section>
 
 <!-- ========================================================= -->
@@ -650,7 +650,7 @@
     </div>
   </div>
 
-  <button onclick="next('mcq')">Continue</button>
+  <button id="distractorBtn" disabled onclick="next('mcq')">Continue</button>
 </section>
 
 <!-- ========================================================= -->
@@ -740,7 +740,7 @@
     </div>
   </div>
 
-  <button onclick="next('ratings')">Continue</button>
+  <button id="mcqBtn" disabled onclick="next('ratings')">Continue</button>
 </section>
 
 <!-- ========================================================= -->
@@ -892,7 +892,7 @@
     </div>
   </div>
 
-  <button onclick="next('debrief')">Continue</button>
+  <button id="ratingsBtn" disabled onclick="next('debrief')">Continue</button>
 </section>
 
 <!-- ========================================================= -->
@@ -949,6 +949,8 @@
 <script>
 let dataSubmitted = false;
 const STUDY_COMPLETION_KEY = "aphantasia_study_completed";
+let storyTimerInterval = null;
+let storyEndTime = null;
 
 /* ---------------- COOKIE FUNCTIONS ---------------- */
 function setCookie(name, value, days) {
@@ -1035,36 +1037,54 @@ function startStory() {
   document.getElementById("storyStart").classList.add("hidden");
   document.getElementById("storyText").classList.remove("hidden");
 
-  const totalTime = 60; // 60 seconds
-  let timeRemaining = totalTime;
+  const totalTime = 60; // seconds
+  storyEndTime = Date.now() + (totalTime * 1000);
   const timerBar = document.getElementById("timerBar");
   const timeDisplay = document.getElementById("timeDisplay");
 
-  // Update timer every 100ms for smooth animation
-  const timerInterval = setInterval(() => {
-    timeRemaining -= 0.1;
-    
-    // Update progress bar
-    const percentage = (timeRemaining / totalTime) * 100;
-    timerBar.style.width = percentage + "%";
-    
-    // Update time display (show whole seconds)
-    timeDisplay.textContent = Math.ceil(timeRemaining) + "s";
-    
-    // Stop when time runs out
-    if (timeRemaining <= 0) {
-      clearInterval(timerInterval);
+  function finishStoryTimer() {
+    if (storyTimerInterval) {
+      clearInterval(storyTimerInterval);
+      storyTimerInterval = null;
     }
-  }, 100);
-
-  // Hide story and show continue button after 60 seconds
-  setTimeout(() => {
-    clearInterval(timerInterval);
     document.getElementById("storyText").classList.add("hidden");
     document.getElementById("storyContinue").classList.remove("hidden");
     localStorage.setItem("storySeen", "true");
-  }, 60000);
+  }
+
+  function updateStoryTimer() {
+    const millisRemaining = Math.max(0, storyEndTime - Date.now());
+    const secondsRemaining = millisRemaining / 1000;
+    const percentage = (secondsRemaining / totalTime) * 100;
+
+    timerBar.style.width = percentage + "%";
+    timeDisplay.textContent = Math.ceil(secondsRemaining) + "s";
+
+    if (millisRemaining <= 0) {
+      finishStoryTimer();
+    }
+  }
+
+  if (storyTimerInterval) {
+    clearInterval(storyTimerInterval);
+  }
+
+  updateStoryTimer();
+  storyTimerInterval = setInterval(updateStoryTimer, 100);
 }
+
+document.addEventListener("visibilitychange", () => {
+  if (!document.hidden && storyEndTime && storyTimerInterval) {
+    const millisRemaining = storyEndTime - Date.now();
+    if (millisRemaining <= 0) {
+      clearInterval(storyTimerInterval);
+      storyTimerInterval = null;
+      document.getElementById("storyText").classList.add("hidden");
+      document.getElementById("storyContinue").classList.remove("hidden");
+      localStorage.setItem("storySeen", "true");
+    }
+  }
+});
 
 /* ---------------- DATA COLLECTION & SUBMISSION ---------------- */
 // IMPORTANT: Replace this URL with your Google Apps Script web app URL
