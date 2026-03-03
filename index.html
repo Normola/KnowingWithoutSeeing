@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Aphantasia Study</title>
+<style>
+  body { font-family: Arial, sans-serif; max-width: 800px; margin: auto; line-height: 1.6; }
+  section { display: none; }
+  .visible { display: block; }
+  button { padding: 10px 20px; margin-top: 20px; }
+  .hidden { display: none; }
+</style>
+</head>
+
+<body>
+
+<h1>Aphantasia Study</h1>
+
+<!-- ========================================================= -->
+<!-- 1. PARTICIPANT INFORMATION SHEET -->
+<!-- ========================================================= -->
+<section id="pis" class="visible">
+  <h2>Participant Information Sheet</h2>
+  <p>[Insert Appendix A text here]</p>
+  <button onclick="next('consent')">Continue</button>
+</section>
+
+<!-- ========================================================= -->
+<!-- 2. CONSENT FORM -->
+<!-- ========================================================= -->
+<section id="consent">
+  <h2>Consent Form</h2>
+  <p>[Insert Appendix B text here]</p>
+
+  <label><input type="checkbox" class="consentBox"> I agree to participate</label><br>
+  <label><input type="checkbox" class="consentBox"> I understand I can withdraw</label><br>
+  <label><input type="checkbox" class="consentBox"> I am over 18</label><br>
+
+  <button id="consentBtn" disabled onclick="next('demographics')">Continue</button>
+</section>
+
+<!-- ========================================================= -->
+<!-- 3. DEMOGRAPHICS -->
+<!-- ========================================================= -->
+<section id="demographics">
+  <h2>Demographics</h2>
+
+  <label>Age category:
+    <select id="age">
+      <option value="">Select…</option>
+      <option>18–25</option>
+      <option>26–35</option>
+      <option>36–45</option>
+      <option>46–55</option>
+      <option>56+</option>
+    </select>
+  </label><br><br>
+
+  <label>Gender:
+    <input type="text" id="gender">
+  </label><br><br>
+
+  <label>Language background:
+    <input type="text" id="language">
+  </label><br><br>
+
+  <button onclick="next('vviq')">Continue</button>
+</section>
+
+<!-- ========================================================= -->
+<!-- 4. VVIQ -->
+<!-- ========================================================= -->
+<section id="vviq">
+  <h2>VVIQ – Imagery Questionnaire</h2>
+  <p>[Insert Appendix 1 items here]</p>
+
+  <!-- Example item -->
+  <p>1. Visualise a friend's face</p>
+  <label><input type="radio" name="v1" value="1"> No image at all</label><br>
+  <label><input type="radio" name="v1" value="2"> Vague</label><br>
+  <label><input type="radio" name="v1" value="3"> Moderate</label><br>
+  <label><input type="radio" name="v1" value="4"> Clear</label><br>
+  <label><input type="radio" name="v1" value="5"> Very vivid</label><br>
+
+  <button onclick="next('story')">Continue</button>
+</section>
+
+<!-- ========================================================= -->
+<!-- 5. TIMED STORY (60 SECONDS) -->
+<!-- ========================================================= -->
+<section id="story">
+  <h2>Story</h2>
+
+  <div id="storyStart">
+    <p>You will now read a short story for 60 seconds. Once the timer starts, you cannot pause or return.</p>
+    <button onclick="startStory()">Start</button>
+  </div>
+
+  <div id="storyText" class="hidden">
+    <p>[Insert Appendix 2 story text here]</p>
+  </div>
+
+  <div id="storyContinue" class="hidden">
+    <button onclick="next('distractor')">Continue</button>
+  </div>
+</section>
+
+<!-- ========================================================= -->
+<!-- 6. DISTRACTOR TASK -->
+<!-- ========================================================= -->
+<section id="distractor">
+  <h2>Maths Distractor Task</h2>
+  <p>[Insert Appendix 3 maths problems here]</p>
+
+  <button onclick="next('mcq')">Continue</button>
+</section>
+
+<!-- ========================================================= -->
+<!-- 7. MULTIPLE CHOICE QUESTIONS -->
+<!-- ========================================================= -->
+<section id="mcq">
+  <h2>Story Questions</h2>
+  <p>[Insert Appendix 4 MCQs here]</p>
+
+  <button onclick="next('ratings')">Continue</button>
+</section>
+
+<!-- ========================================================= -->
+<!-- 8. RATINGS -->
+<!-- ========================================================= -->
+<section id="ratings">
+  <h2>Ratings</h2>
+  <p>[Insert Appendix 5 rating scales here]</p>
+
+  <button onclick="next('debrief')">Continue</button>
+</section>
+
+<!-- ========================================================= -->
+<!-- 9. DEBRIEF -->
+<!-- ========================================================= -->
+<section id="debrief">
+  <h2>Debrief</h2>
+  <p>[Insert Appendix C text here]</p>
+  <p>Thank you for taking part.</p>
+</section>
+
+<!-- ========================================================= -->
+<!-- JAVASCRIPT LOGIC -->
+<!-- ========================================================= -->
+<script>
+function next(id) {
+  document.querySelectorAll("section").forEach(s => s.classList.remove("visible"));
+  document.getElementById(id).classList.add("visible");
+}
+
+/* ---------------- CONSENT CHECKBOX LOGIC ---------------- */
+document.querySelectorAll(".consentBox").forEach(box => {
+  box.addEventListener("change", () => {
+    const allChecked = [...document.querySelectorAll(".consentBox")].every(b => b.checked);
+    document.getElementById("consentBtn").disabled = !allChecked;
+  });
+});
+
+/* ---------------- STORY TIMER LOGIC ---------------- */
+function startStory() {
+  if (localStorage.getItem("storySeen") === "true") {
+    document.getElementById("storyStart").innerHTML = "<p>This section cannot be repeated.</p>";
+    return;
+  }
+
+  document.getElementById("storyStart").classList.add("hidden");
+  document.getElementById("storyText").classList.remove("hidden");
+
+  setTimeout(() => {
+    document.getElementById("storyText").classList.add("hidden");
+    document.getElementById("storyContinue").classList.remove("hidden");
+    localStorage.setItem("storySeen", "true");
+  }, 60000);
+}
+</script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Aphantasia Study</title>
+<style>
+  body { font-family: Arial, sans-serif; max-width: 800px; margin: auto; line-height: 1.6; }
+  section { display: none; }
+  .visible { display: block; }
+  button { padding: 10px 20px; margin-top: 20px; }
+  .hidden { display: none; }
+</style>
+</head>
+
+<body>
+
+<h1>Aphantasia Study</h1>
+
+<!-- ========================================================= -->
+<!-- 1. PARTICIPANT INFORMATION SHEET -->
+<!-- ========================================================= -->
+<section id="pis" class="visible">
+  <h2>Participant Information Sheet</h2>
+  <p>[Insert Appendix A text here]</p>
+  <button onclick="next('consent')">Continue</button>
+</section>
+
+<!-- ========================================================= -->
+<!-- 2. CONSENT FORM -->
+<!-- ========================================================= -->
+<section id="consent">
+  <h2>Consent Form</h2>
+  <p>[Insert Appendix B text here]</p>
+
+  <label><input type="checkbox" class="consentBox"> I agree to participate</label><br>
+  <label><input type="checkbox" class="consentBox"> I understand I can withdraw</label><br>
+  <label><input type="checkbox" class="consentBox"> I am over 18</label><br>
+
+  <button id="consentBtn" disabled onclick="next('demographics')">Continue</button>
+</section>
+
+<!-- ========================================================= -->
+<!-- 3. DEMOGRAPHICS -->
+<!-- ========================================================= -->
+<section id="demographics">
+  <h2>Demographics</h2>
+
+  <label>Age category:
+    <select id="age">
+      <option value="">Select…</option>
+      <option>18–25</option>
+      <option>26–35</option>
+      <option>36–45</option>
+      <option>46–55</option>
+      <option>56+</option>
+    </select>
+  </label><br><br>
+
+  <label>Gender:
+    <input type="text" id="gender">
+  </label><br><br>
+
+  <label>Language background:
+    <input type="text" id="language">
+  </label><br><br>
+
+  <button onclick="next('vviq')">Continue</button>
+</section>
+
+<!-- ========================================================= -->
+<!-- 4. VVIQ -->
+<!-- ========================================================= -->
+<section id="vviq">
+  <h2>VVIQ – Imagery Questionnaire</h2>
+  <p>[Insert Appendix 1 items here]</p>
+
+  <!-- Example item -->
+  <p>1. Visualise a friend's face</p>
+  <label><input type="radio" name="v1" value="1"> No image at all</label><br>
+  <label><input type="radio" name="v1" value="2"> Vague</label><br>
+  <label><input type="radio" name="v1" value="3"> Moderate</label><br>
+  <label><input type="radio" name="v1" value="4"> Clear</label><br>
+  <label><input type="radio" name="v1" value="5"> Very vivid</label><br>
+
+  <button onclick="next('story')">Continue</button>
+</section>
+
+<!-- ========================================================= -->
+<!-- 5. TIMED STORY (60 SECONDS) -->
+<!-- ========================================================= -->
+<section id="story">
+  <h2>Story</h2>
+
+  <div id="storyStart">
+    <p>You will now read a short story for 60 seconds. Once the timer starts, you cannot pause or return.</p>
+    <button onclick="startStory()">Start</button>
+  </div>
+
+  <div id="storyText" class="hidden">
+    <p>[Insert Appendix 2 story text here]</p>
+  </div>
+
+  <div id="storyContinue" class="hidden">
+    <button onclick="next('distractor')">Continue</button>
+  </div>
+</section>
+
+<!-- ========================================================= -->
+<!-- 6. DISTRACTOR TASK -->
+<!-- ========================================================= -->
+<section id="distractor">
+  <h2>Maths Distractor Task</h2>
+  <p>[Insert Appendix 3 maths problems here]</p>
+
+  <button onclick="next('mcq')">Continue</button>
+</section>
+
+<!-- ========================================================= -->
+<!-- 7. MULTIPLE CHOICE QUESTIONS -->
+<!-- ========================================================= -->
+<section id="mcq">
+  <h2>Story Questions</h2>
+  <p>[Insert Appendix 4 MCQs here]</p>
+
+  <button onclick="next('ratings')">Continue</button>
+</section>
+
+<!-- ========================================================= -->
+<!-- 8. RATINGS -->
+<!-- ========================================================= -->
+<section id="ratings">
+  <h2>Ratings</h2>
+  <p>[Insert Appendix 5 rating scales here]</p>
+
+  <button onclick="next('debrief')">Continue</button>
+</section>
+
+<!-- ========================================================= -->
+<!-- 9. DEBRIEF -->
+<!-- ========================================================= -->
+<section id="debrief">
+  <h2>Debrief</h2>
+  <p>[Insert Appendix C text here]</p>
+  <p>Thank you for taking part.</p>
+</section>
+
+<!-- ========================================================= -->
+<!-- JAVASCRIPT LOGIC -->
+<!-- ========================================================= -->
+<script>
+function next(id) {
+  document.querySelectorAll("section").forEach(s => s.classList.remove("visible"));
+  document.getElementById(id).classList.add("visible");
+}
+
+/* ---------------- CONSENT CHECKBOX LOGIC ---------------- */
+document.querySelectorAll(".consentBox").forEach(box => {
+  box.addEventListener("change", () => {
+    const allChecked = [...document.querySelectorAll(".consentBox")].every(b => b.checked);
+    document.getElementById("consentBtn").disabled = !allChecked;
+  });
+});
+
+/* ---------------- STORY TIMER LOGIC ---------------- */
+function startStory() {
+  if (localStorage.getItem("storySeen") === "true") {
+    document.getElementById("storyStart").innerHTML = "<p>This section cannot be repeated.</p>";
+    return;
+  }
+
+  document.getElementById("storyStart").classList.add("hidden");
+  document.getElementById("storyText").classList.remove("hidden");
+
+  setTimeout(() => {
+    document.getElementById("storyText").classList.add("hidden");
+    document.getElementById("storyContinue").classList.remove("hidden");
+    localStorage.setItem("storySeen", "true");
+  }, 60000);
+}
+</script>
+
+</body>
+</html>
