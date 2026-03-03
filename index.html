@@ -1046,7 +1046,15 @@ window.addEventListener('DOMContentLoaded', function() {
 /* ---------------- REQUIRED FIELD VALIDATION ---------------- */
 function hasValue(id) {
   const element = document.getElementById(id);
-  return !!element && element.value.trim() !== "";
+  if (!element) {
+    return false;
+  }
+
+  if (element.tagName === "SELECT") {
+    return element.value !== "";
+  }
+
+  return element.value.trim() !== "";
 }
 
 function isGroupAnswered(name) {
@@ -1079,6 +1087,20 @@ function updateSectionButtons() {
 
 document.addEventListener("change", updateSectionButtons);
 document.addEventListener("input", updateSectionButtons);
+
+["age", "gender", "language", "consentDate"].forEach((id) => {
+  const field = document.getElementById(id);
+  if (!field) {
+    return;
+  }
+
+  field.addEventListener("change", updateSectionButtons);
+  field.addEventListener("input", updateSectionButtons);
+  field.addEventListener("blur", updateSectionButtons);
+  field.addEventListener("keyup", updateSectionButtons);
+});
+
+setTimeout(updateSectionButtons, 300);
 
 /* ---------------- STORY TIMER LOGIC ---------------- */
 function startStory() {
