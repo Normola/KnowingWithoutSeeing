@@ -970,6 +970,9 @@ function next(id) {
   document.querySelectorAll("section").forEach(s => s.classList.remove("visible"));
   document.getElementById(id).classList.add("visible");
   
+  // Scroll to top of page
+  window.scrollTo(0, 0);
+  
   // Set cookie when moving from consent to demographics (study officially started)
   if (id === 'demographics') {
     setCookie("aphantasia_study_completed", "true", 365); // Cookie lasts 1 year
