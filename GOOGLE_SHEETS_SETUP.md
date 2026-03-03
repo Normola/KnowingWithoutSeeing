@@ -7,11 +7,24 @@ Follow these steps to set up automatic data collection to Google Sheets:
 1. Go to [Google Sheets](https://sheets.google.com)
 2. Create a new spreadsheet
 3. Name it something like "Aphantasia Study Data"
-4. In the first row, add these column headers (copy and paste this entire line):
+4. In the first row, add these column headers:
+   - **Option A**: Copy the line below, paste into cell A1, then use **Data → Split text to columns** in Google Sheets:
 
 ```
-timestamp	consentName	consentDate	age	gender	language	vviq_1	vviq_2	vviq_3	vviq_4	vviq_5	vviq_6	vviq_7	vviq_8	vviq_9	vviq_10	vviq_11	vviq_12	vviq_13	vviq_14	vviq_15	vviq_16	math_1	math_2	math_3	math_4	math_5	mcq_1	mcq_2	mcq_3	mcq_4	mcq_5	mcq_6	mcq_7	mcq_8	rating_1	rating_2	rating_3	rating_4	rating_5	rating_6	rating_7	rating_8	rating_9
+timestamp,consentName,consentDate,age,gender,language,vviq_1,vviq_2,vviq_3,vviq_4,vviq_5,vviq_6,vviq_7,vviq_8,vviq_9,vviq_10,vviq_11,vviq_12,vviq_13,vviq_14,vviq_15,vviq_16,math_1,math_2,math_3,math_4,math_5,mcq_1,mcq_2,mcq_3,mcq_4,mcq_5,mcq_6,mcq_7,mcq_8,rating_1,rating_2,rating_3,rating_4,rating_5,rating_6,rating_7,rating_8,rating_9
 ```
+
+   - **Option B**: Manually type these headers across the first row (A1 to AQ1):
+     - A1: `timestamp`
+     - B1: `consentName`
+     - C1: `consentDate`
+     - D1: `age`
+     - E1: `gender`
+     - F1: `language`
+     - G1-V1: `vviq_1` through `vviq_16`
+     - W1-AA1: `math_1` through `math_5`
+     - AB1-AI1: `mcq_1` through `mcq_8`
+     - AJ1-AR1: `rating_1` through `rating_9`
 
 ## Step 2: Create Google Apps Script
 
