@@ -166,10 +166,10 @@
 <!-- Message shown if participant has already taken the study -->
 <section id="alreadyCompleted" class="hidden" style="background-color: white; padding: 2em; border-radius: 6px; box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12); margin-top: 2em; text-align: center;">
   <h2 style="color: #0366d6;">Study Already Completed</h2>
-  <p style="font-size: 1.1em; margin: 1.5em 0;">Our records indicate that you have already participated in this study.</p>
-  <p>To maintain the integrity of the research data, participants may only complete the study once.</p>
-  <p style="margin-top: 1.5em;">Thank you for your interest in this research.</p>
-  <p style="margin-top: 1.5em; font-size: 0.9em; color: #666;">If you believe this is an error, please contact the researcher at s.n.jackson@wlv.ac.uk</p>
+  <p style="font-size: 1.1em; margin: 1.5em 0;">Thanks so much for taking part — our records show this study has already been completed on this device/browser.</p>
+  <p>To protect data quality, participants can only complete the study once.</p>
+  <p style="margin-top: 1.5em;">If you expected to continue because you did not finish the study, please email Sally and she can help:</p>
+  <p style="margin-top: 0.75em;"><a href="mailto:s.n.jackson@wlv.ac.uk" style="color: #0366d6; font-weight: 600; text-decoration: underline;">s.n.jackson@wlv.ac.uk</a></p>
 </section>
 
 <!-- ========================================================= -->
@@ -983,8 +983,8 @@ function next(id) {
   // Scroll to top of page
   window.scrollTo(0, 0);
   
-  // Set cookie when moving from consent to demographics (study officially started)
-  if (id === 'demographics') {
+  // Mark study as completed after the timed story page, when moving to distractor
+  if (id === 'distractor') {
     setStudyCompletion();
   }
   
