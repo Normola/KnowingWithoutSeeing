@@ -33,6 +33,13 @@
     border-radius: 6px 6px 0 0;
     text-align: center;
   }
+
+  .title-sub {
+    display: block;
+    font-size: 0.45em;
+    font-weight: 500;
+    margin-top: 0.35em;
+  }
   
   h2 {
     font-size: 1.8em;
@@ -161,7 +168,7 @@
 
 <body>
 
-<h1>Aphantasia Study</h1>
+<h1>Knowing without Seeing<span class="title-sub">A Quantitative Study of Memory Storage in Aphantasia</span></h1>
 
 <!-- Message shown if participant has already taken the study -->
 <section id="alreadyCompleted" class="hidden" style="background-color: white; padding: 2em; border-radius: 6px; box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12); margin-top: 2em; text-align: center;">
@@ -969,7 +976,9 @@ function checkStudyCompletion() {
     // Hide all sections
     document.querySelectorAll("section").forEach(s => s.classList.remove("visible"));
     // Show the already completed message
-    document.getElementById("alreadyCompleted").classList.add("visible");
+    const alreadyCompleted = document.getElementById("alreadyCompleted");
+    alreadyCompleted.classList.remove("hidden");
+    alreadyCompleted.classList.add("visible");
     return true;
   }
   return false;
