@@ -28,7 +28,7 @@
     font-size: 2.5em;
     margin: 0.5em 0 0.5em 0;
     color: #fff;
-    background: linear-gradient(135deg, #0366d6 0%, #0256c7 100%);
+    background: linear-gradient(135deg, #228B22 0%, #1B5E20 100%);
     padding: 1em;
     border-radius: 6px 6px 0 0;
     text-align: center;
@@ -44,7 +44,7 @@
   h2 {
     font-size: 1.8em;
     margin: 1.5em 0 0.75em 0;
-    color: #0366d6;
+    color: #228B22;
     border-bottom: 2px solid #e1e4e8;
     padding-bottom: 0.3em;
   }
@@ -99,7 +99,7 @@
   }
   
   button {
-    background-color: #0366d6;
+    background-color: #228B22;
     color: white;
     border: none;
     padding: 12px 24px;
@@ -112,8 +112,8 @@
   }
   
   button:hover:not(:disabled) {
-    background-color: #0256c7;
-    box-shadow: 0 3px 8px rgba(3, 102, 214, 0.3);
+    background-color: #1B5E20;
+    box-shadow: 0 3px 8px rgba(34, 139, 34, 0.3);
   }
   
   button:disabled {
@@ -146,8 +146,8 @@
   input[type="email"]:focus,
   select:focus {
     outline: none;
-    border-color: #0366d6;
-    box-shadow: 0 0 0 3px rgba(3, 102, 214, 0.1);
+    border-color: #228B22;
+    box-shadow: 0 0 0 3px rgba(34, 139, 34, 0.1);
   }
   
   input[type="checkbox"],
@@ -160,8 +160,16 @@
   }
   
   strong {
-    color: #0366d6;
+    color: #228B22;
     font-weight: 600;
+  }
+
+  [style*="#0366d6"] {
+    color: #228B22 !important;
+  }
+
+  #timerBar {
+    background: linear-gradient(90deg, #28a745 0%, #228B22 50%, #dc3545 100%) !important;
   }
 </style>
 </head>
