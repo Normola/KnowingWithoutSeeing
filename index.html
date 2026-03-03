@@ -285,26 +285,31 @@
 <section id="demographics">
   <h2>Demographics</h2>
 
-  <label>Age category:
-    <select id="age">
-      <option value="">Select…</option>
-      <option>18–25</option>
-      <option>26–35</option>
-      <option>36–45</option>
-      <option>46–55</option>
-      <option>56+</option>
-    </select>
-  </label><br><br>
+  <div style="display: grid; grid-template-columns: 1fr; gap: 1.5em; max-width: 500px;">
+    <div>
+      <label for="age" style="display: block; font-weight: 600; margin-bottom: 0.5em;">Age category:</label>
+      <select id="age" style="width: 100%;">
+        <option value="">Select…</option>
+        <option>18–25</option>
+        <option>26–35</option>
+        <option>36–45</option>
+        <option>46–55</option>
+        <option>56+</option>
+      </select>
+    </div>
 
-  <label>Gender:
-    <input type="text" id="gender">
-  </label><br><br>
+    <div>
+      <label for="gender" style="display: block; font-weight: 600; margin-bottom: 0.5em;">Gender:</label>
+      <input type="text" id="gender" style="width: 100%;">
+    </div>
 
-  <label>Language background:
-    <input type="text" id="language">
-  </label><br><br>
+    <div>
+      <label for="language" style="display: block; font-weight: 600; margin-bottom: 0.5em;">Language background:</label>
+      <input type="text" id="language" style="width: 100%;">
+    </div>
+  </div>
 
-  <button onclick="next('vviq')">Continue</button>
+  <button onclick="next('vviq')" style="margin-top: 2em;">Continue</button>
 </section>
 
 <!-- ========================================================= -->
