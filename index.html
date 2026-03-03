@@ -554,6 +554,17 @@
   </div>
 
   <div id="storyText" class="hidden">
+    <!-- Timer Display -->
+    <div style="margin-bottom: 2em; padding: 1em; background-color: #f6f8fa; border-radius: 4px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5em;">
+        <span style="font-weight: 600; color: #0366d6;">Time Remaining:</span>
+        <span id="timeDisplay" style="font-size: 1.2em; font-weight: 700; color: #0366d6;">60s</span>
+      </div>
+      <div style="width: 100%; height: 20px; background-color: #e1e4e8; border-radius: 10px; overflow: hidden;">
+        <div id="timerBar" style="width: 100%; height: 100%; background: linear-gradient(90deg, #28a745 0%, #0366d6 50%, #dc3545 100%); transition: width 0.1s linear;"></div>
+      </div>
+    </div>
+
     <h3>The Garden Bench</h3>
     <p>Late one afternoon, Daniel walked through the small public garden near his home. He followed the winding path that curved between the flowerbeds, noticing how quiet the space felt compared to the nearby road. He made his way towards a wooden bench positioned beside a narrow pond. A few leaves drifted across the surface of the water, moving slowly in the gentle breeze.</p>
     
@@ -994,7 +1005,31 @@ function startStory() {
   document.getElementById("storyStart").classList.add("hidden");
   document.getElementById("storyText").classList.remove("hidden");
 
+  const totalTime = 60; // 60 seconds
+  let timeRemaining = totalTime;
+  const timerBar = document.getElementById("timerBar");
+  const timeDisplay = document.getElementById("timeDisplay");
+
+  // Update timer every 100ms for smooth animation
+  const timerInterval = setInterval(() => {
+    timeRemaining -= 0.1;
+    
+    // Update progress bar
+    const percentage = (timeRemaining / totalTime) * 100;
+    timerBar.style.width = percentage + "%";
+    
+    // Update time display (show whole seconds)
+    timeDisplay.textContent = Math.ceil(timeRemaining) + "s";
+    
+    // Stop when time runs out
+    if (timeRemaining <= 0) {
+      clearInterval(timerInterval);
+    }
+  }, 100);
+
+  // Hide story and show continue button after 60 seconds
   setTimeout(() => {
+    clearInterval(timerInterval);
     document.getElementById("storyText").classList.add("hidden");
     document.getElementById("storyContinue").classList.remove("hidden");
     localStorage.setItem("storySeen", "true");
