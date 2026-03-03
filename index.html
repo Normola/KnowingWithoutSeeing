@@ -164,8 +164,31 @@
     font-weight: 600;
   }
 
-  [style*="#0366d6"] {
-    color: #228B22 !important;
+  .section-subheading {
+    color: #228B22;
+    border-bottom: 2px solid #e1e4e8;
+    padding-bottom: 0.5em;
+  }
+
+  .email-link {
+    color: #228B22;
+    font-weight: 600;
+    text-decoration: underline;
+  }
+
+  .status-submitting {
+    color: #228B22;
+    font-weight: 600;
+  }
+
+  .status-success {
+    color: #28a745;
+    font-weight: 600;
+  }
+
+  .status-error {
+    color: #dc3545;
+    font-weight: 600;
   }
 
   #timerBar {
@@ -180,11 +203,11 @@
 
 <!-- Message shown if participant has already taken the study -->
 <section id="alreadyCompleted" class="hidden" style="background-color: white; padding: 2em; border-radius: 6px; box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12); margin-top: 2em; text-align: center;">
-  <h2 style="color: #0366d6;">Study Already Completed</h2>
+  <h2>Study Already Completed</h2>
   <p style="font-size: 1.1em; margin: 1.5em 0;">Thanks so much for taking part — our records show this study has already been completed on this device/browser.</p>
   <p>To protect data quality, participants can only complete the study once.</p>
   <p style="margin-top: 1.5em;">If you expected to continue because you did not finish the study, please email Sally and she can help:</p>
-  <p style="margin-top: 0.75em;"><a href="mailto:s.n.jackson@wlv.ac.uk" style="color: #0366d6; font-weight: 600; text-decoration: underline;">s.n.jackson@wlv.ac.uk</a></p>
+  <p style="margin-top: 0.75em;"><a href="mailto:s.n.jackson@wlv.ac.uk" class="email-link">s.n.jackson@wlv.ac.uk</a></p>
 </section>
 
 <!-- ========================================================= -->
@@ -356,7 +379,7 @@
 
   <!-- THEME 1: Relative or Friend -->
   <div style="margin-bottom: 2.5em;">
-    <h3 style="color: #0366d6; border-bottom: 2px solid #e1e4e8; padding-bottom: 0.5em;">Relative or Friend</h3>
+    <h3 class="section-subheading">Relative or Friend</h3>
     <p style="font-style: italic; margin-bottom: 1.5em;">For items 1 to 4, think of some relative or friend whom you frequently see (but who is not with you at present) and consider carefully the picture that comes before your mind's eye.</p>
 
     <div style="margin-bottom: 1.5em;">
@@ -406,7 +429,7 @@
 
   <!-- THEME 2: Natural Scene - Rising Sun -->
   <div style="margin-bottom: 2.5em;">
-    <h3 style="color: #0366d6; border-bottom: 2px solid #e1e4e8; padding-bottom: 0.5em;">Natural Scene: Rising Sun</h3>
+    <h3 class="section-subheading">Natural Scene: Rising Sun</h3>
     <p style="font-style: italic; margin-bottom: 1.5em;">Visualize a rising sun. Consider carefully the picture that comes before your mind's eye.</p>
 
     <div style="margin-bottom: 1.5em;">
@@ -456,7 +479,7 @@
 
   <!-- THEME 3: Shop -->
   <div style="margin-bottom: 2.5em;">
-    <h3 style="color: #0366d6; border-bottom: 2px solid #e1e4e8; padding-bottom: 0.5em;">Shop</h3>
+    <h3 class="section-subheading">Shop</h3>
     <p style="font-style: italic; margin-bottom: 1.5em;">Think of the front of a shop which you often go to. Consider the picture that comes before your mind's eye.</p>
 
     <div style="margin-bottom: 1.5em;">
@@ -506,7 +529,7 @@
 
   <!-- THEME 4: Natural Scene - Lake -->
   <div style="margin-bottom: 2.5em;">
-    <h3 style="color: #0366d6; border-bottom: 2px solid #e1e4e8; padding-bottom: 0.5em;">Natural Scene: Lake</h3>
+    <h3 class="section-subheading">Natural Scene: Lake</h3>
     <p style="font-style: italic; margin-bottom: 1.5em;">Finally, think of a country scene which involves trees, mountains, and a lake. Consider the picture that comes before your mind's eye.</p>
 
     <div style="margin-bottom: 1.5em;">
@@ -757,7 +780,7 @@
 
   <!-- IMAGERY EXPERIENCE -->
   <div style="margin-bottom: 2.5em;">
-    <h3 style="color: #0366d6; border-bottom: 2px solid #e1e4e8; padding-bottom: 0.5em;">Imagery Experience</h3>
+    <h3 class="section-subheading">Imagery Experience</h3>
 
     <div style="margin-bottom: 2em;">
       <p style="font-weight: 600; margin-bottom: 0.75em;">How vivid were any mental images you experienced while reading the story?</p>
@@ -801,7 +824,7 @@
 
   <!-- NON-VISUAL/CONCEPTUAL EXPERIENCE -->
   <div style="margin-bottom: 2.5em;">
-    <h3 style="color: #0366d6; border-bottom: 2px solid #e1e4e8; padding-bottom: 0.5em;">Non-Visual / Conceptual Experience</h3>
+    <h3 class="section-subheading">Non-Visual / Conceptual Experience</h3>
 
     <div style="margin-bottom: 2em;">
       <p style="font-weight: 600; margin-bottom: 0.75em;">How much did you rely on verbal or conceptual thinking (e.g. words, ideas, meanings) rather than imagery?</p>
@@ -832,7 +855,7 @@
 
   <!-- CONFIDENCE AND ENGAGEMENT -->
   <div style="margin-bottom: 2.5em;">
-    <h3 style="color: #0366d6; border-bottom: 2px solid #e1e4e8; padding-bottom: 0.5em;">Confidence and Engagement</h3>
+    <h3 class="section-subheading">Confidence and Engagement</h3>
 
     <div style="margin-bottom: 2em;">
       <p style="font-weight: 600; margin-bottom: 0.75em;">How confident do you feel about your memory for the story?</p>
@@ -863,7 +886,7 @@
 
   <!-- IMAGERY-RELATED COGNITIVE EXPERIENCE -->
   <div style="margin-bottom: 2.5em;">
-    <h3 style="color: #0366d6; border-bottom: 2px solid #e1e4e8; padding-bottom: 0.5em;">Imagery-Related Cognitive Experience</h3>
+    <h3 class="section-subheading">Imagery-Related Cognitive Experience</h3>
 
     <div style="margin-bottom: 2em;">
       <p style="font-weight: 600; margin-bottom: 0.75em;">How similar was your experience to "seeing" something in your mind?</p>
