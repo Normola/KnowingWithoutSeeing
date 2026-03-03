@@ -602,8 +602,8 @@
     <!-- Timer Display -->
     <div id="timerContainer" style="position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); width: min(760px, calc(100% - 2rem)); padding: 1em; background-color: #f6f8fa; border-radius: 8px; box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12); z-index: 1000;">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5em;">
-        <span style="font-weight: 600; color: #0366d6;">Time Remaining:</span>
-        <span id="timeDisplay" style="font-size: 1.2em; font-weight: 700; color: #0366d6;">60s</span>
+        <span style="font-weight: 600;">Time Remaining:</span>
+        <span id="timeDisplay" style="font-size: 1.2em; font-weight: 700;">60s</span>
       </div>
       <div style="width: 100%; height: 20px; background-color: #e1e4e8; border-radius: 10px; overflow: hidden;">
         <div id="timerBar" style="width: 100%; height: 100%; background: linear-gradient(90deg, #dc3545 0%, #228B22 50%, #28a745 100%); transition: width 0.1s linear;"></div>
@@ -962,7 +962,7 @@
   <p style="margin-top: 2em;"><strong>Thank you for participating in this study.</strong></p>
 
   <div id="submitMessage" style="margin-top: 2em; padding: 1.5em; background-color: #f6f8fa; border-radius: 4px;">
-    <p style="color: #0366d6; font-weight: 600;">Submitting your responses...</p>
+    <p class="status-submitting">Submitting your responses...</p>
   </div>
 </section>
 
@@ -1040,15 +1040,45 @@ function next(id) {
 /* ---------------- PAGE LOAD CHECK ---------------- */
 window.addEventListener('DOMContentLoaded', function() {
   checkStudyCompletion();
+  updateSectionButtons();
 });
 
-/* ---------------- CONSENT CHECKBOX LOGIC ---------------- */
-document.querySelectorAll(".consentBox").forEach(box => {
-  box.addEventListener("change", () => {
-    const allChecked = [...document.querySelectorAll(".consentBox")].every(b => b.checked);
-    document.getElementById("consentBtn").disabled = !allChecked;
-  });
-});
+/* ---------------- REQUIRED FIELD VALIDATION ---------------- */
+function hasValue(id) {
+  const element = document.getElementById(id);
+  return !!element && element.value.trim() !== "";
+}
+
+function isGroupAnswered(name) {
+  return !!document.querySelector(`input[name="${name}"]:checked`);
+}
+
+function areGroupsAnswered(groupNames) {
+  return groupNames.every(isGroupAnswered);
+}
+
+function updateSectionButtons() {
+  const consentComplete = [...document.querySelectorAll(".consentBox")].every(box => box.checked) && hasValue("consentDate");
+  document.getElementById("consentBtn").disabled = !consentComplete;
+
+  const demographicsComplete = hasValue("age") && hasValue("gender") && hasValue("language");
+  document.getElementById("demographicsBtn").disabled = !demographicsComplete;
+
+  const vviqGroups = Array.from({ length: 16 }, (_, index) => `vviq_${index + 1}`);
+  document.getElementById("vviqBtn").disabled = !areGroupsAnswered(vviqGroups);
+
+  const mathGroups = Array.from({ length: 5 }, (_, index) => `math_${index + 1}`);
+  document.getElementById("distractorBtn").disabled = !areGroupsAnswered(mathGroups);
+
+  const mcqGroups = Array.from({ length: 8 }, (_, index) => `mcq_${index + 1}`);
+  document.getElementById("mcqBtn").disabled = !areGroupsAnswered(mcqGroups);
+
+  const ratingGroups = Array.from({ length: 9 }, (_, index) => `rating_${index + 1}`);
+  document.getElementById("ratingsBtn").disabled = !areGroupsAnswered(ratingGroups);
+}
+
+document.addEventListener("change", updateSectionButtons);
+document.addEventListener("input", updateSectionButtons);
 
 /* ---------------- STORY TIMER LOGIC ---------------- */
 function startStory() {
@@ -1195,7 +1225,7 @@ function submitData() {
   const submitMessage = document.getElementById("submitMessage");
   
   // Show submitting message
-  submitMessage.innerHTML = "<p style='color: #0366d6; font-weight: 600;'>Submitting your responses...</p>";
+  submitMessage.innerHTML = "<p class='status-submitting'>Submitting your responses...</p>";
   
   const data = collectData();
   
@@ -1209,12 +1239,12 @@ function submitData() {
     body: JSON.stringify(data)
   })
   .then(() => {
-    submitMessage.innerHTML = "<p style='color: #28a745; font-weight: 600;'>✓ Thank you! Your responses have been submitted successfully.</p>";
+    submitMessage.innerHTML = "<p class='status-success'>✓ Thank you! Your responses have been submitted successfully.</p>";
     localStorage.clear(); // Clear the story timer flag
   })
   .catch(error => {
     console.error("Error:", error);
-    submitMessage.innerHTML = "<p style='color: #dc3545; font-weight: 600;'>⚠ There was an error submitting your responses. Please contact the researcher at s.n.jackson@wlv.ac.uk</p>";
+    submitMessage.innerHTML = "<p class='status-error'>⚠ There was an error submitting your responses. Please contact the researcher at s.n.jackson@wlv.ac.uk</p>";
   });
 }
 </script>
