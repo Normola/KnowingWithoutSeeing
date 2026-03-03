@@ -227,11 +227,54 @@
 <!-- ========================================================= -->
 <section id="consent">
   <h2>Consent Form</h2>
-  <p>[Insert Appendix B text here]</p>
+  
+  <p><strong>Title of Project:</strong> Knowing without Seeing: A Quantitative Study of Memory Storage in Aphantasia.</p>
+  
+  <p><strong>Name of Researcher:</strong> Sally Jackson</p>
 
-  <label><input type="checkbox" class="consentBox"> I agree to participate</label><br>
-  <label><input type="checkbox" class="consentBox"> I understand I can withdraw</label><br>
-  <label><input type="checkbox" class="consentBox"> I am over 18</label><br>
+  <div style="margin: 2em 0;">
+    <label style="display: flex; align-items: flex-start; margin: 1em 0;">
+      <input type="checkbox" class="consentBox" style="margin-top: 0.2em; flex-shrink: 0;">
+      <span style="margin-left: 1em;">I confirm that I have read and understand the information sheet dated version 1 for the above study and have had the opportunity to ask questions.</span>
+    </label>
+
+    <label style="display: flex; align-items: flex-start; margin: 1em 0;">
+      <input type="checkbox" class="consentBox" style="margin-top: 0.2em; flex-shrink: 0;">
+      <span style="margin-left: 1em;">I confirm that I am over the age of 18.</span>
+    </label>
+
+    <label style="display: flex; align-items: flex-start; margin: 1em 0;">
+      <input type="checkbox" class="consentBox" style="margin-top: 0.2em; flex-shrink: 0;">
+      <span style="margin-left: 1em;">I understand that my participation is voluntary and that I am free to withdraw. You may withdraw from the study at any point before submitting your responses, but not afterwards. This can be done simply by closing the browser window; no explanation is required. Because the study collects no identifiable information, it will not be possible to remove individual data after submission, as the researcher cannot link any response back to a specific participant. You may choose to skip any question you do not wish to answer, except for the initial consent items, which must be completed to begin the study, without giving any reason for doing so.</span>
+    </label>
+
+    <label style="display: flex; align-items: flex-start; margin: 1em 0;">
+      <input type="checkbox" class="consentBox" style="margin-top: 0.2em; flex-shrink: 0;">
+      <span style="margin-left: 1em;">I understand that my data will be stored securely and confidentially using the lead researcher's Microsoft OneDrive account for the current academic year and for an additional six years. I also understand that the data obtained will be used solely for the purpose of this study and that I will not be identifiable in any reports.</span>
+    </label>
+
+    <label style="display: flex; align-items: flex-start; margin: 1em 0;">
+      <input type="checkbox" class="consentBox" style="margin-top: 0.2em; flex-shrink: 0;">
+      <span style="margin-left: 1em;">I understand that the researcher intends to use the results of this study for the partial fulfilment of a master's in Psychology of Mental Health and Wellbeing, for which I give my permission.</span>
+    </label>
+
+    <label style="display: flex; align-items: flex-start; margin: 1em 0;">
+      <input type="checkbox" class="consentBox" style="margin-top: 0.2em; flex-shrink: 0;">
+      <span style="margin-left: 1em;">I voluntarily agree to take part in the above study.</span>
+    </label>
+  </div>
+
+  <div style="margin-top: 2em; padding-top: 2em; border-top: 1px solid #e1e4e8;">
+    <label style="display: block; margin: 1em 0;">
+      <strong>Name:</strong><br>
+      <input type="text" id="consentName" style="width: 100%; max-width: none;">
+    </label>
+
+    <label style="display: block; margin: 1em 0;">
+      <strong>Date:</strong><br>
+      <input type="date" id="consentDate" style="width: 100%; max-width: none;">
+    </label>
+  </div>
 
   <button id="consentBtn" disabled onclick="next('demographics')">Continue</button>
 </section>
